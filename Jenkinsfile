@@ -3,7 +3,6 @@ pipeline {
     environment {
         DOCKER_HUB_REPO = '5unnysunny/scalculator'  // Replace with your Docker Hub repo
         DOCKER_CREDENTIALS_ID = 'docker-hub-credentials'  // Matches your Jenkins credential ID
-        PATH = "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
     }
     stages {
         stage('Pull Repo') {
