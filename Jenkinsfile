@@ -1,18 +1,18 @@
 pipeline {
     agent any
     environment {
-        DOCKER_HUB_REPO = '5unnysunny/scalculator'  // Replace with your Docker Hub repo
-        DOCKER_CREDENTIALS_ID = 'docker-hub-credentials'  // Matches your Jenkins credential ID
+        DOCKER_HUB_REPO = '5unnysunny/scalculator'
+        DOCKER_CREDENTIALS_ID = 'docker-hub-credentials'
     }
     stages {
         stage('Pull Repo') {
             steps {
-                git url: 'https://github.com/anirudh-pathaneni/ScientificCalculator-DevOps', branch: 'main'  // Replace with your repo
+                git url: 'https://github.com/anirudh-pathaneni/ScientificCalculator-DevOps', branch: 'main'
             }
         }
         stage('Run Tests') {
             steps {
-                sh 'python3 -m unittest test_scalculator.py'  // Assumes your test file
+                sh 'python3 -m unittest test_scalculator.py' 
             }
         }
         stage('Build Image') {
@@ -36,10 +36,9 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh 'ansible-playbook -i localhost, ansible/deploy.yml --extra-vars "image_tag=${BUILD_NUMBER}"'  // Assumes your Ansible playbook
+                sh 'ansible-playbook -i localhost, ansible/deploy.yml --extra-vars "image_tag=${BUILD_NUMBER}"'  
             }
         }
-        // Optional Email Stage
         stage('Send Email') {
             steps {
                 emailext subject: "Pipeline ${currentBuild.currentResult}", body: "Build ${env.BUILD_NUMBER} ${currentBuild.currentResult}", to: 'pathaneni.anirudh@iiitb.ac.in'
