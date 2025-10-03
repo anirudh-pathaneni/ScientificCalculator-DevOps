@@ -41,7 +41,7 @@ pipeline {
         }
         stage('Send Email') {
             steps {
-                emailext subject: "Pipeline ${currentBuild.currentResult}", body: "Build ${env.BUILD_NUMBER} ${currentBuild.currentResult}", to: 'pathaneni.anirudh@iiitb.ac.in'
+                emailext subject: "Pipeline ${currentBuild.currentResult}", body: "Build ${env.BUILD_NUMBER} ${currentBuild.currentResult}", to: 'pathaneni.anirudh9@gmail.com'
             }
         }
     }
