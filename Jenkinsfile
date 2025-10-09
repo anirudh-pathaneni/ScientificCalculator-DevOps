@@ -25,13 +25,13 @@ pipeline {
         stage('Login to Docker Hub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+                    sh "echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin"
                 }
             }
         }
         stage('Push Image') {
             steps {
-                sh 'docker push $DOCKER_HUB_REPO:$env.BUILD_NUMBER'
+                sh "docker push ${DOCKER_HUB_REPO}:${env.BUILD_NUMBER}"
             }
         }
         stage('Deploy') {
