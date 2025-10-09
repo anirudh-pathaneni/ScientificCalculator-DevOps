@@ -1,11 +1,11 @@
 ---
 - name: Deploy Scientific Calculator Container
   hosts: localhost
-  connection: local  # No SSH needed for local deployment
+  connection: local
   tasks:
     - name: Pull Docker image
       community.docker.docker_image:
-        name: "5unnysunny/scalculator:{{ image_tag }}"  # Replace with your Docker Hub repo
+        name: "5unnysunny/scalculator:{{ image_tag }}" 
         source: pull
 
     - name: Run container

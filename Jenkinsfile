@@ -25,13 +25,13 @@ pipeline {
         stage('Login to Docker Hub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    sh "echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin"
+                    sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
                 }
             }
         }
         stage('Push Image') {
             steps {
-                sh "docker push ${DOCKER_HUB_REPO}:${env.BUILD_NUMBER}"
+                sh 'docker push $DOCKER_HUB_REPO:$env.BUILD_NUMBER'
             }
         }
         stage('Deploy') {
@@ -39,14 +39,14 @@ pipeline {
                 sh 'ansible-playbook -i localhost, ansible/deploy.yml --extra-vars "image_tag=${BUILD_NUMBER}"'  
             }
         }
-        stage('Send Email') {
-            steps {
-                emailext subject: "Pipeline ${currentBuild.currentResult}", body: "Build ${env.BUILD_NUMBER} ${currentBuild.currentResult}", to: 'pathaneni.anirudh9@gmail.com'
-            }
-        }
     }
     post {
         always {
+            script {
+                // Clean up Docker images
+                sh "docker rmi ${DOCKER_HUB_REPO}:${env.BUILD_NUMBER} || true"
+                sh "docker rmi ${DOCKER_HUB_REPO}:latest || true"
+            }
             cleanWs()  // Clean up workspac
         }
     }
