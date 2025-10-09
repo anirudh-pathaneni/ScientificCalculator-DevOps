@@ -13,7 +13,7 @@ class TestCalculator(unittest.TestCase):
 
     def test_ln(self):
         self.assertAlmostEqual(ln(math.e), 1.0) # type: ignore
-        self.assertEqual(ln(1), 0.0)
+        self.assertEqual(ln(1), 0.0) #test
 
     def test_power(self):
         self.assertEqual(power(2, 3), 8.0)
