@@ -44,7 +44,7 @@ pipeline {
         always {
             script {
                 // Clean up Docker images
-                sh "docker rmi ${DOCKER_HUB_REPO}:${env.BUILD_NUMBER} || true"
+                sh "docker rmi ${DOCKER_HUB_REPO}:${env.BUILD_NUMBER-1} || true"
                 sh "docker rmi ${DOCKER_HUB_REPO}:latest || true"
             }
             cleanWs()  // Clean up workspac
